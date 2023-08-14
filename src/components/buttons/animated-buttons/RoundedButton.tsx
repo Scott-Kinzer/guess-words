@@ -2,16 +2,26 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 type Props = {
+  isDisabled?: boolean;
   bgColor?: string;
   text: string;
   pressHandler: (e: any) => void;
 };
 
-const RoundedButton = ({text, bgColor = '#752894', pressHandler}: Props) => {
+const RoundedButton = ({
+  text,
+  bgColor = '#752894',
+  isDisabled = false,
+  pressHandler,
+}: Props) => {
   return (
     <TouchableOpacity
+      disabled={isDisabled}
       onPress={pressHandler}
-      style={{...styles.buttonContainer, backgroundColor: bgColor}}>
+      style={{
+        ...styles.buttonContainer,
+        backgroundColor: isDisabled ? 'grey' : bgColor,
+      }}>
       <Text style={{color: 'white'}}>{text}</Text>
     </TouchableOpacity>
   );

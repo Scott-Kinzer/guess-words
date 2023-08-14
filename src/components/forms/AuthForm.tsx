@@ -16,10 +16,10 @@ type Props = {
 const AuthForm = ({navigation}: Props) => (
   <View>
     <Formik
-      validateOnChange={true}
+      validateOnChange
       initialValues={{email: '', name: '', password: ''}}
       validationSchema={yup.object(authFormValidation)}
-      onSubmit={values => console.log(values)}>
+      onSubmit={() => navigation.push('AuthPincode')}>
       {({
         handleChange,
         handleBlur,
