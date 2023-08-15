@@ -52,6 +52,7 @@ const PasswordInput = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={onChangeText}
+        keyboardType="default"
       />
       {error && isTouched && <Text style={styles.errorText}>{error}</Text>}
     </View>

@@ -19,7 +19,9 @@ const LoginForm = ({navigation}: Props) => {
       <Formik
         initialValues={{email: '', password: ''}}
         validationSchema={yup.object(loginFormValidation)}
-        onSubmit={values => console.log(values)}>
+        onSubmit={() => {
+          navigation.push('Category');
+        }}>
         {({
           values,
           touched,

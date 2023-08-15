@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import React, {FormEvent} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import * as yup from 'yup';
 import {RootStackParamList} from '../../types/route.screen.types';
@@ -69,9 +69,7 @@ const AuthForm = ({navigation}: Props) => (
             <RoundedButton
               bgColor="#2f62ba"
               text="Sign up"
-              pressHandler={e =>
-                handleSubmit(e as unknown as FormEvent<HTMLFormElement>)
-              }
+              pressHandler={handleSubmit}
             />
           </View>
           <View style={{marginTop: 10}}>

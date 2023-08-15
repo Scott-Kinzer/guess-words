@@ -51,6 +51,7 @@ const StandardInput = ({
         onBlur={handleBlur}
         onChangeText={onChangeText}
         value={value}
+        keyboardType="default"
       />
       {!!error && isTouched && <Text style={styles.errorText}>{error}</Text>}
     </View>
