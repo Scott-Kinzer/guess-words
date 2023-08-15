@@ -12,8 +12,14 @@ import RoundedButton from '../buttons/animated-buttons/RoundedButton';
 import {pinCodeValidation} from './validations/auth.validation';
 import {isNumber} from '../../helpers/isNumber';
 import {PINCODE_OBJ, PINCODE_TEMP} from './form-data/form.data';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/route.screen.types';
 
-const PincodeForm = () => {
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'AuthPincode'>;
+};
+
+const PincodeForm = ({navigation}: Props) => {
   const pincodeRefs = useRef<Array<TextInput | null>>([]);
 
   return (
@@ -22,7 +28,9 @@ const PincodeForm = () => {
         initialValues={PINCODE_OBJ}
         validateOnMount
         validationSchema={pinCodeValidation}
-        onSubmit={values => console.log(values)}>
+        onSubmit={() => {
+          navigation.push('Category');
+        }}>
         {({values, isValid, handleSubmit, handleChange}) => (
           <View>
             <View style={styles.container}>
