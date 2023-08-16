@@ -1,15 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 type Props = {
   text: string;
+  handler: () => void;
 };
 
-const CategoryItem = ({text}: Props) => {
+const CategoryItem = ({text, handler}: Props) => {
   return (
-    <View style={styles.category}>
+    <TouchableOpacity onPress={handler} style={styles.category}>
       <Text>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

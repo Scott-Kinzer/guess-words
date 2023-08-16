@@ -1,16 +1,45 @@
 import React from 'react';
 import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
 import CategoryItem from '../components/category/CategoryItem';
+import {CategoryProps} from '../types/route.screen.types';
 
-const CategoryScreen = () => {
+const CategoryScreen = ({navigation}: CategoryProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Categories</Text>
       <View style={styles.categoryContainer}>
-        <CategoryItem text="Nature" />
-        <CategoryItem text="Technologies" />
-        <CategoryItem text="Music" />
-        <CategoryItem text="Science" />
+        <CategoryItem
+          handler={() =>
+            navigation.push('CategoryLevels', {
+              categoryType: 'nature',
+            })
+          }
+          text="Nature"
+        />
+        <CategoryItem
+          handler={() =>
+            navigation.push('CategoryLevels', {
+              categoryType: 'technologies',
+            })
+          }
+          text="Technologies"
+        />
+        <CategoryItem
+          handler={() =>
+            navigation.push('CategoryLevels', {
+              categoryType: 'music',
+            })
+          }
+          text="Music"
+        />
+        <CategoryItem
+          handler={() =>
+            navigation.push('CategoryLevels', {
+              categoryType: 'science',
+            })
+          }
+          text="Science"
+        />
       </View>
     </SafeAreaView>
   );
