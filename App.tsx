@@ -6,6 +6,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import {RootStackParamList} from './src/types/route.screen.types';
 import AuthPincodeScreen from './src/screens/AuthPincodeScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
+import CategoryLevelsScreen from './src/screens/CategoryLevelsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -51,6 +52,17 @@ function App(): JSX.Element {
             headerShown: false,
             animation: 'fade_from_bottom',
             animationDuration: 180,
+          }}
+        />
+        <Stack.Screen
+          name="CategoryLevels"
+          component={CategoryLevelsScreen}
+          options={{
+            title: '',
+            animation: 'flip',
+            animationDuration: 180,
+            headerTransparent: true,
+            headerBackTitleVisible: false,
           }}
         />
       </Stack.Navigator>

@@ -5,6 +5,9 @@ export type RootStackParamList = {
   Auth: undefined;
   AuthPincode: undefined;
   Category: undefined;
+  CategoryLevels: {
+    categoryType: string;
+  };
 };
 
 export type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -16,4 +19,9 @@ export type AuthPincodeProps = NativeStackScreenProps<
 export type CategoryProps = NativeStackScreenProps<
   RootStackParamList,
   'Category'
+>;
+
+export type CategoryLevelsProps = NativeStackScreenProps<
+  RootStackParamList,
+  'CategoryLevels'
 >;
