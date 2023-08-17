@@ -1,11 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-const CategoryLevelsItem = () => {
+type Props = {
+  clickHandler: () => void;
+};
+
+const CategoryLevelsItem = ({clickHandler}: Props) => {
   return (
-    <View style={styles.category}>
+    <TouchableOpacity onPress={clickHandler} style={styles.category}>
       <Text style={{textAlign: 'center'}}>Level 1</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

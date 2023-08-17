@@ -7,6 +7,7 @@ import {RootStackParamList} from './src/types/route.screen.types';
 import AuthPincodeScreen from './src/screens/AuthPincodeScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import CategoryLevelsScreen from './src/screens/CategoryLevelsScreen';
+import GameScreen from './src/screens/GameScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -57,6 +58,17 @@ function App(): JSX.Element {
         <Stack.Screen
           name="CategoryLevels"
           component={CategoryLevelsScreen}
+          options={{
+            title: '',
+            animation: 'flip',
+            animationDuration: 180,
+            headerTransparent: true,
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="Game"
+          component={GameScreen}
           options={{
             title: '',
             animation: 'flip',
