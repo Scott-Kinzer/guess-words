@@ -12,7 +12,7 @@ import CategoryLevelsItem from '../components/category-levels/CategoryLevelsItem
 
 const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const CategoryLevelsScreen = ({route}: CategoryLevelsProps) => {
+const CategoryLevelsScreen = ({route, navigation}: CategoryLevelsProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
@@ -33,7 +33,9 @@ const CategoryLevelsScreen = ({route}: CategoryLevelsProps) => {
                 padding: 10,
                 width: Dimensions.get('window').width / 4 - 10,
               }}>
-              <CategoryLevelsItem />
+              <CategoryLevelsItem
+                clickHandler={() => navigation.push('Game')}
+              />
             </View>
           )}
           keyExtractor={item => item.toString()}

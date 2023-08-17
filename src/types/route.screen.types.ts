@@ -8,6 +8,7 @@ export type RootStackParamList = {
   CategoryLevels: {
     categoryType: string;
   };
+  Game: undefined;
 };
 
 export type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -25,3 +26,5 @@ export type CategoryLevelsProps = NativeStackScreenProps<
   RootStackParamList,
   'CategoryLevels'
 >;
+
+export type GameProps = NativeStackScreenProps<RootStackParamList, 'Game'>;
