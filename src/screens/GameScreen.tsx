@@ -35,10 +35,12 @@ const GameScreen = () => {
         <WordView wordLength={5} answerWord={userAnswer} />
       </View>
       <View style={styles.hintContainer}>
-        <Text style={styles.hintText}>
-          Some hint for user to guess word Some hint for user to guess word Some
-          hint for user to guess word
-        </Text>
+        <View style={styles.hintinnerContainer}>
+          <Text style={styles.hintText}>
+            Some hint for user to guess word Some hint for user to guess word
+            Some hint for user to guess word
+          </Text>
+        </View>
       </View>
       <View style={styles.keyboardWrapper}>
         <CustomKeyboard
@@ -55,11 +57,13 @@ const GameScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ce7af5',
   },
-
   hintText: {
     width: '100%',
     textAlign: 'center',
+    padding: 5,
+    borderRadius: 20,
   },
   title: {
     fontSize: 24,
@@ -73,11 +77,16 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   hintContainer: {
-    alignSelf: 'center',
     flexWrap: 'wrap',
     width: '100%',
     flex: 2,
     paddingHorizontal: 20,
+  },
+  hintinnerContainer: {
+    flexWrap: 'wrap',
+    width: '100%',
+    borderRadius: 20,
+    backgroundColor: '#f5cc7a',
   },
   keyboardWrapper: {
     marginTop: 20,

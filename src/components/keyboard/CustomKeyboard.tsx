@@ -42,6 +42,12 @@ const CustomKeyboard = ({submit, enterKey, deleteKey, isValid}: Props) => {
                 key={keyIndex}
                 style={{
                   ...styles.key,
+                  backgroundColor:
+                    key === 'submit'
+                      ? isValid
+                        ? '#cfeb88'
+                        : '#e2e3de'
+                      : '#cfeb88',
                   width:
                     key === 'delete' || key === 'submit'
                       ? Dimensions.get('window').width / 3 - 10
@@ -63,7 +69,6 @@ const CustomKeyboard = ({submit, enterKey, deleteKey, isValid}: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
@@ -79,17 +84,16 @@ const styles = StyleSheet.create({
   keyboard: {},
   row: {
     flexDirection: 'row',
-    // flexWrap: 'wrap',
     justifyContent: 'center',
-    // justifyContent: 'space-between',
   },
   key: {
-    // width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#cfeb88',
     margin: 5,
   },
   keyText: {
