@@ -8,76 +8,80 @@ import AuthPincodeScreen from './src/screens/AuthPincodeScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import CategoryLevelsScreen from './src/screens/CategoryLevelsScreen';
 import GameScreen from './src/screens/GameScreen';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const queryClient = new QueryClient();
 
 function App(): JSX.Element {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Auth"
-          component={AuthScreen}
-          options={{
-            title: 'Auth',
-            headerShown: false,
-            animation: 'fade_from_bottom',
-            animationDuration: 180,
-          }}
-        />
-        <Stack.Screen
-          name="AuthPincode"
-          component={AuthPincodeScreen}
-          options={{
-            title: 'Enter pincode',
-            headerShown: false,
-            animation: 'fade_from_bottom',
-            animationDuration: 180,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            title: 'Login',
-            headerShown: false,
-            animation: 'fade_from_bottom',
-            animationDuration: 180,
-          }}
-        />
-        <Stack.Screen
-          name="Category"
-          component={CategoryScreen}
-          options={{
-            title: 'Login',
-            headerShown: false,
-            animation: 'fade_from_bottom',
-            animationDuration: 180,
-          }}
-        />
-        <Stack.Screen
-          name="CategoryLevels"
-          component={CategoryLevelsScreen}
-          options={{
-            title: '',
-            animation: 'flip',
-            animationDuration: 180,
-            headerTransparent: true,
-            headerBackTitleVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="Game"
-          component={GameScreen}
-          options={{
-            title: '',
-            animation: 'flip',
-            animationDuration: 180,
-            headerTransparent: true,
-            headerBackTitleVisible: false,
-          }}
-        />
-      </Stack.Navigator>
+      <QueryClientProvider client={queryClient}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: 'Login',
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              animationDuration: 180,
+            }}
+          />
+          <Stack.Screen
+            name="Auth"
+            component={AuthScreen}
+            options={{
+              title: 'Auth',
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              animationDuration: 180,
+            }}
+          />
+          <Stack.Screen
+            name="AuthPincode"
+            component={AuthPincodeScreen}
+            options={{
+              title: 'Enter pincode',
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              animationDuration: 180,
+            }}
+          />
+          <Stack.Screen
+            name="Category"
+            component={CategoryScreen}
+            options={{
+              title: 'Category',
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              animationDuration: 180,
+            }}
+          />
+          <Stack.Screen
+            name="CategoryLevels"
+            component={CategoryLevelsScreen}
+            options={{
+              title: '',
+              animation: 'flip',
+              animationDuration: 180,
+              headerTransparent: true,
+              headerBackTitleVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Game"
+            component={GameScreen}
+            options={{
+              title: '',
+              animation: 'flip',
+              animationDuration: 180,
+              headerTransparent: true,
+              headerBackTitleVisible: false,
+            }}
+          />
+        </Stack.Navigator>
+      </QueryClientProvider>
     </NavigationContainer>
   );
 }

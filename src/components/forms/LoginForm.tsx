@@ -1,7 +1,7 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
-import React, {FormEvent} from 'react';
-import {View} from 'react-native';
+import React, {Dispatch, FormEvent, SetStateAction, useState} from 'react';
+import {Text, View} from 'react-native';
 import {RootStackParamList} from '../../types/route.screen.types';
 import {loginFormValidation} from './validations/login.validation';
 import * as yup from 'yup';
@@ -9,18 +9,29 @@ import StandardInput from '../inputs/StandardInput';
 import PasswordInput from '../inputs/PasswordInput';
 import RoundedButton from '../buttons/animated-buttons/RoundedButton';
 
-type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
+export type LoginFields = {
+  email: string;
+  password: string;
 };
 
-const LoginForm = ({navigation}: Props) => {
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
+  makeRequest: (
+    data: LoginFields,
+    setErrors: Dispatch<SetStateAction<string>>,
+  ) => void;
+};
+
+const LoginForm = ({navigation, makeRequest}: Props) => {
+  const [serverError, setServerError] = useState('');
+
   return (
     <View>
       <Formik
         initialValues={{email: '', password: ''}}
         validationSchema={yup.object(loginFormValidation)}
-        onSubmit={() => {
-          navigation.push('Category');
+        onSubmit={values => {
+          makeRequest(values, setServerError);
         }}>
         {({
           values,
@@ -52,6 +63,12 @@ const LoginForm = ({navigation}: Props) => {
               onBlur={handleBlur('password')}
               setFieldsTouched={setFieldTouched}
             />
+
+            {serverError && (
+              <View>
+                <Text>{serverError}</Text>
+              </View>
+            )}
 
             <View style={{marginTop: 20}}>
               <RoundedButton
