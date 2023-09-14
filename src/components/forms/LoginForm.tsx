@@ -1,5 +1,5 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Formik} from 'formik';
+import {Formik, FormikErrors} from 'formik';
 import React, {Dispatch, FormEvent, SetStateAction, useState} from 'react';
 import {Text, View} from 'react-native';
 import {RootStackParamList} from '../../types/route.screen.types';
@@ -19,6 +19,7 @@ type Props = {
   makeRequest: (
     data: LoginFields,
     setErrors: Dispatch<SetStateAction<string>>,
+    setFieldError: (errors: FormikErrors<LoginFields>) => void,
   ) => void;
 };
 
@@ -30,8 +31,8 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
       <Formik
         initialValues={{email: '', password: ''}}
         validationSchema={yup.object(loginFormValidation)}
-        onSubmit={values => {
-          makeRequest(values, setServerError);
+        onSubmit={(values, {setErrors}) => {
+          makeRequest(values, setServerError, setErrors);
         }}>
         {({
           values,
@@ -49,7 +50,10 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
               placeholder="email"
               error={errors.email}
               name="email"
-              onChangeText={handleChange('email')}
+              onChangeText={e => {
+                setServerError('');
+                return handleChange('email')(e);
+              }}
               onBlur={handleBlur('email')}
               setFieldsTouched={setFieldTouched}
             />
@@ -59,7 +63,10 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
               placeholder="password"
               error={errors.password}
               name="password"
-              onChangeText={handleChange('password')}
+              onChangeText={e => {
+                setServerError('');
+                handleChange('password')(e);
+              }}
               onBlur={handleBlur('password')}
               setFieldsTouched={setFieldTouched}
             />
@@ -72,16 +79,18 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
 
             <View style={{marginTop: 20}}>
               <RoundedButton
-                bgColor="#ed7a0e"
+                bgColor={Object.keys(errors).length === 0 ? '#ed7a0e' : 'grey'}
                 text="Sign in"
-                pressHandler={e =>
-                  handleSubmit(e as unknown as FormEvent<HTMLFormElement>)
-                }
+                pressHandler={e => {
+                  if (Object.keys(errors).length === 0) {
+                    handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
+                  }
+                }}
               />
             </View>
             <View style={{marginTop: 10}}>
               <RoundedButton
-                text="Go to auth"
+                text="Go to register"
                 pressHandler={() => navigation.push('Auth')}
               />
             </View>
