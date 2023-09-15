@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, SetStateAction, useContext} from 'react';
 import LoginForm, {LoginFields} from '../../components/forms/LoginForm';
 import {RootStackParamList} from '../../types/route.screen.types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -8,6 +8,7 @@ import {FormikErrors} from 'formik';
 import {AxiosError} from 'axios';
 import LoadingSpinner from '../../components/loader-components/Loader';
 import {View} from 'react-native';
+import {AuthContext} from '../../contexts/AuthContext';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
@@ -15,6 +16,7 @@ type Props = {
 
 const Login = ({navigation}: Props) => {
   const {mutate, isLoading} = useMutation(loginRequest);
+  const authData = useContext(AuthContext);
 
   const makeLoginRequest = (
     data: LoginFields,
@@ -22,7 +24,8 @@ const Login = ({navigation}: Props) => {
     setFieldErrors: (errors: FormikErrors<LoginFields>) => void,
   ) => {
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: tokens => {
+        authData?.setTokens(tokens.accessToken, tokens.refreshToken);
         navigation.push('Category');
       },
       onError: error => {

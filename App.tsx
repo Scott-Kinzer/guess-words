@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AuthScreen from './src/screens/AuthScreen';
@@ -9,15 +9,27 @@ import CategoryScreen from './src/screens/CategoryScreen';
 import CategoryLevelsScreen from './src/screens/CategoryLevelsScreen';
 import GameScreen from './src/screens/GameScreen';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import AuthWrapper, {AuthContext} from './src/contexts/AuthContext';
+import {Text, View} from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
 
-function App(): JSX.Element {
+const NavigationWrapper = () => {
+  const authData = useContext(AuthContext);
+
+  if (authData?.isTokenChecking) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+
   return (
-    <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-        <Stack.Navigator>
+    <Stack.Navigator>
+      {!authData?.accessToken ? (
+        <>
           <Stack.Screen
             name="Login"
             component={LoginScreen}
@@ -48,6 +60,9 @@ function App(): JSX.Element {
               animationDuration: 180,
             }}
           />
+        </>
+      ) : (
+        <>
           <Stack.Screen
             name="Category"
             component={CategoryScreen}
@@ -80,7 +95,19 @@ function App(): JSX.Element {
               headerBackTitleVisible: false,
             }}
           />
-        </Stack.Navigator>
+        </>
+      )}
+    </Stack.Navigator>
+  );
+};
+
+function App(): JSX.Element {
+  return (
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <AuthWrapper>
+          <NavigationWrapper />
+        </AuthWrapper>
       </QueryClientProvider>
     </NavigationContainer>
   );
