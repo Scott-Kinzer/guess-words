@@ -5,6 +5,7 @@ import {axiosClient} from '../axios';
 
 interface AuthContextType {
   setTokens: (accessToken: string, refreshToken: string) => void;
+  clearTokens: () => Promise<void>;
   accessToken: string;
   isTokenChecking: boolean;
 }
@@ -46,6 +47,14 @@ const AuthWrapper = ({children}: Props) => {
     },
     [],
   );
+
+  const clearTokens = useCallback(async () => {
+    await EncryptedStorage.removeItem('tokens');
+
+    setRefreshToken('');
+    setAccessToken('');
+    setAccessTokenCreated(undefined);
+  }, []);
 
   useLayoutEffect(() => {
     let timeOut: NodeJS.Timeout | undefined;
@@ -164,7 +173,8 @@ const AuthWrapper = ({children}: Props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{setTokens, accessToken, isTokenChecking}}>
+    <AuthContext.Provider
+      value={{setTokens, clearTokens, accessToken, isTokenChecking}}>
       {children}
     </AuthContext.Provider>
   );

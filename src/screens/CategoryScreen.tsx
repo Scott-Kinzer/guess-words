@@ -1,12 +1,24 @@
-import React from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import React, {useContext} from 'react';
+import {SafeAreaView, Text, View, StyleSheet, Button} from 'react-native';
 import CategoryItem from '../components/category/CategoryItem';
 import {CategoryProps} from '../types/route.screen.types';
+import {AuthContext} from '../contexts/AuthContext';
 
 const CategoryScreen = ({navigation}: CategoryProps) => {
+  const authData = useContext(AuthContext);
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.logoutButton}>
+        <Button
+          title="Logout"
+          onPress={async () => {
+            await authData?.clearTokens();
+          }}
+        />
+      </View>
       <Text style={styles.title}>Categories</Text>
+
       <View style={styles.categoryContainer}>
         <CategoryItem
           handler={() =>
@@ -73,6 +85,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 4,
     backgroundColor: '#5eff79',
+  },
+  logoutButton: {
+    alignSelf: 'flex-start',
   },
 });
 

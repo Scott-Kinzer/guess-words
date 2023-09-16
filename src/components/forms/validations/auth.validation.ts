@@ -3,7 +3,6 @@ import {loginFormValidation} from './login.validation';
 import {PINCODE_TEMP} from '../form-data/form.data';
 
 export const authFormValidation = {
-  name: yup.string().required('Name is required.'),
   ...loginFormValidation,
 };
 
