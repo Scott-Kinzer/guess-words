@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
-import AuthForm from '../components/forms/AuthForm';
 import {AuthProps} from '../types/route.screen.types';
+import Register from '../sections/register/Register';
 
 const AuthScreen = ({navigation}: AuthProps) => {
   return (
@@ -10,7 +10,7 @@ const AuthScreen = ({navigation}: AuthProps) => {
         <Text style={styles.title}>Welcome to Guess With Hints</Text>
 
         <View style={styles.authForm}>
-          <AuthForm navigation={navigation} />
+          <Register navigation={navigation} />
         </View>
       </View>
     </SafeAreaView>

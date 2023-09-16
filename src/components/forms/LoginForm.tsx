@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Formik, FormikErrors} from 'formik';
-import React, {Dispatch, FormEvent, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {Text, View} from 'react-native';
 import {RootStackParamList} from '../../types/route.screen.types';
 import {loginFormValidation} from './validations/login.validation';
@@ -83,7 +83,7 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
                 text="Sign in"
                 pressHandler={e => {
                   if (Object.keys(errors).length === 0) {
-                    handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
+                    handleSubmit(e);
                   }
                 }}
               />
