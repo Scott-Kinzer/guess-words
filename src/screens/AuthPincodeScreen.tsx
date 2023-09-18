@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
 import {AuthPincodeProps} from '../types/route.screen.types';
-import PincodeForm from '../components/forms/PincodeForm';
+import Pincode from '../sections/pincode/Pincode';
 
-const AuthPincodeScreen = ({navigation}: AuthPincodeProps) => {
+const AuthPincodeScreen = ({navigation, route}: AuthPincodeProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -11,7 +11,7 @@ const AuthPincodeScreen = ({navigation}: AuthPincodeProps) => {
           Please enter pincode that we sent to your email
         </Text>
         <View style={styles.pincodeForm}>
-          <PincodeForm navigation={navigation} />
+          <Pincode navigation={navigation} email={route.params.email} />
         </View>
       </View>
     </SafeAreaView>

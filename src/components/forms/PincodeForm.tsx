@@ -1,8 +1,9 @@
 import {Formik} from 'formik';
-import React, {useRef} from 'react';
+import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
 import {
   NativeSyntheticEvent,
   StyleSheet,
+  Text,
   TextInput,
   TextInputTextInputEventData,
   View,
@@ -17,10 +18,15 @@ import {RootStackParamList} from '../../types/route.screen.types';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'AuthPincode'>;
+  makeRequest: (
+    data: {[x: string]: string},
+    setErrors: Dispatch<SetStateAction<string>>,
+  ) => void;
 };
 
-const PincodeForm = ({navigation}: Props) => {
+const PincodeForm = ({makeRequest}: Props) => {
   const pincodeRefs = useRef<Array<TextInput | null>>([]);
+  const [serverError, setServerError] = useState('');
 
   return (
     <View>
@@ -28,8 +34,8 @@ const PincodeForm = ({navigation}: Props) => {
         initialValues={PINCODE_OBJ}
         validateOnMount
         validationSchema={pinCodeValidation}
-        onSubmit={() => {
-          navigation.push('Category');
+        onSubmit={values => {
+          makeRequest(values, setServerError);
         }}>
         {({values, isValid, handleSubmit, handleChange}) => (
           <View>
@@ -42,11 +48,13 @@ const PincodeForm = ({navigation}: Props) => {
                   const text = e.nativeEvent.text;
 
                   if (text === '') {
+                    setServerError('');
                     textPrevious === '' && i > 0
                       ? pincodeRefs.current[i - 1]?.focus()
                       : handleChange(key)(text);
                   }
                   if (isNumber(text)) {
+                    setServerError('');
                     const lastEntered = text[text.length - 1];
                     handleChange(key)(lastEntered);
 
@@ -67,6 +75,12 @@ const PincodeForm = ({navigation}: Props) => {
                 );
               })}
             </View>
+            {serverError && (
+              <View style={{paddingLeft: 20, paddingTop: 10}}>
+                <Text>{serverError}</Text>
+              </View>
+            )}
+
             <View style={{marginTop: 30}}>
               <RoundedButton
                 isDisabled={!isValid}

@@ -3,7 +3,9 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Login: undefined;
   Auth: undefined;
-  AuthPincode: undefined;
+  AuthPincode: {
+    email: string;
+  };
   Category: undefined;
   CategoryLevels: {
     categoryType: string;

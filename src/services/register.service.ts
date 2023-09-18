@@ -20,3 +20,24 @@ export const registerRequest = async (
 
   return response.data;
 };
+
+export type PincodeRequestType = {
+  email: string;
+  pincode: string;
+};
+
+export type PincodeResponseType = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+export const pincodeRequest = async (
+  requestData: PincodeRequestType,
+): Promise<PincodeResponseType> => {
+  const response = await axiosClient.post<PincodeResponseType>('auth/pincode', {
+    email: requestData.email,
+    pincode: requestData.pincode,
+  });
+
+  return response.data;
+};

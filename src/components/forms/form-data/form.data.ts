@@ -6,3 +6,11 @@ export const PINCODE_OBJ = {
   [PINCODE_TEMP[3]]: '',
   [PINCODE_TEMP[4]]: '',
 };
+
+export type PincodeObjType = {
+  '1': string;
+  '2': string;
+  '3': string;
+  '4': string;
+  '5': string;
+};

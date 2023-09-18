@@ -21,10 +21,11 @@ const Register = ({navigation}: Props) => {
     setErrors: Dispatch<SetStateAction<string>>,
     setFieldErrors: (errors: FormikErrors<RegisterFields>) => void,
   ) => {
-    console.log('x');
     mutate(data, {
-      onSuccess: () => {
-        navigation.push('AuthPincode');
+      onSuccess: response => {
+        navigation.push('AuthPincode', {
+          email: response.email,
+        });
       },
       onError: error => {
         const errorAxios = error as AxiosError;
