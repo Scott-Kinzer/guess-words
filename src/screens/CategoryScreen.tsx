@@ -3,9 +3,13 @@ import {SafeAreaView, Text, View, StyleSheet, Button} from 'react-native';
 import CategoryItem from '../components/category/CategoryItem';
 import {CategoryProps} from '../types/route.screen.types';
 import {AuthContext} from '../contexts/AuthContext';
+import {useQuery} from '@tanstack/react-query';
+import {categoriesRequest} from '../services/categories.service';
 
 const CategoryScreen = ({navigation}: CategoryProps) => {
   const authData = useContext(AuthContext);
+
+  const {data} = useQuery([], () => categoriesRequest());
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,38 +24,20 @@ const CategoryScreen = ({navigation}: CategoryProps) => {
       <Text style={styles.title}>Categories</Text>
 
       <View style={styles.categoryContainer}>
-        <CategoryItem
-          handler={() =>
-            navigation.push('CategoryLevels', {
-              categoryType: 'nature',
-            })
-          }
-          text="Nature"
-        />
-        <CategoryItem
-          handler={() =>
-            navigation.push('CategoryLevels', {
-              categoryType: 'technologies',
-            })
-          }
-          text="Technologies"
-        />
-        <CategoryItem
-          handler={() =>
-            navigation.push('CategoryLevels', {
-              categoryType: 'music',
-            })
-          }
-          text="Music"
-        />
-        <CategoryItem
-          handler={() =>
-            navigation.push('CategoryLevels', {
-              categoryType: 'science',
-            })
-          }
-          text="Science"
-        />
+        {data &&
+          data.map(({type}) => {
+            return (
+              <CategoryItem
+                key={type}
+                handler={() =>
+                  navigation.navigate('CategoryLevels', {
+                    categoryType: type,
+                  })
+                }
+                text={type}
+              />
+            );
+          })}
       </View>
     </SafeAreaView>
   );

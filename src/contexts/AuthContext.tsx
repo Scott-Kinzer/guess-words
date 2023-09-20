@@ -26,6 +26,8 @@ const AuthWrapper = ({children}: Props) => {
 
   const setTokens = useCallback(
     async (accessTokenValue: string, refreshTokenValue: string) => {
+      axiosClient.defaults.headers.common.authorization = accessTokenValue;
+
       setAccessToken(accessTokenValue);
       setRefreshToken(refreshTokenValue);
       setAccessTokenCreated(new Date());
@@ -54,6 +56,7 @@ const AuthWrapper = ({children}: Props) => {
     setRefreshToken('');
     setAccessToken('');
     setAccessTokenCreated(undefined);
+    axiosClient.defaults.headers.common.authorization = '';
   }, []);
 
   useLayoutEffect(() => {
@@ -91,6 +94,9 @@ const AuthWrapper = ({children}: Props) => {
               }),
             );
 
+            axiosClient.defaults.headers.common.authorization =
+              newTokens.accessToken;
+
             setAccessToken(newTokens.accessToken);
             setRefreshToken(newTokens.refreshToken);
             setAccessTokenCreated(new Date());
@@ -127,6 +133,9 @@ const AuthWrapper = ({children}: Props) => {
         console.log(isValidTime);
 
         if (isValidTime) {
+          axiosClient.defaults.headers.common.authorization =
+            tokensObject.accessToken;
+
           setAccessToken(tokensObject.accessToken);
           setRefreshToken(tokensObject.refreshToken);
           setAccessTokenCreated(tokensObject.accessTokenCreated);
@@ -156,16 +165,23 @@ const AuthWrapper = ({children}: Props) => {
               }),
             );
 
+            axiosClient.defaults.headers.common.authorization =
+              newTokens.accessToken;
+
             setAccessToken(newTokens.accessToken);
             setRefreshToken(newTokens.refreshToken);
             setAccessTokenCreated(new Date());
             setIsTokenChecking(false);
           } catch {
             setIsTokenChecking(false);
+
+            axiosClient.defaults.headers.common.authorization = '';
           }
         }
       } else {
         setIsTokenChecking(false);
+
+        axiosClient.defaults.headers.common.authorization = '';
       }
     }
 
