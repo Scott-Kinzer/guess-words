@@ -9,10 +9,14 @@ import {
 } from 'react-native';
 import {CategoryLevelsProps} from '../types/route.screen.types';
 import CategoryLevelsItem from '../components/category-levels/CategoryLevelsItem';
-
-const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+import {categoryRequest} from '../services/categories.service';
+import {useQuery} from '@tanstack/react-query';
 
 const CategoryLevelsScreen = ({route, navigation}: CategoryLevelsProps) => {
+  const {data} = useQuery(['categoryWords'], () =>
+    categoryRequest({type: route.params.categoryType}),
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
@@ -25,16 +29,22 @@ const CategoryLevelsScreen = ({route, navigation}: CategoryLevelsProps) => {
         }}>
         <FlatList
           contentContainerStyle={styles.categoryContainer}
-          data={array}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          renderItem={() => (
+          data={data}
+          columnWrapperStyle={{justifyContent: 'flex-start'}}
+          renderItem={wordData => (
             <View
               style={{
                 padding: 10,
                 width: Dimensions.get('window').width / 4 - 10,
               }}>
               <CategoryLevelsItem
-                clickHandler={() => navigation.push('Game')}
+                key={wordData.item.word_id}
+                clickHandler={(wordId: string) =>
+                  navigation.push('Game', {
+                    wordId: wordId,
+                  })
+                }
+                wordData={wordData.item}
               />
             </View>
           )}

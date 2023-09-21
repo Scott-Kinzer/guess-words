@@ -10,7 +10,9 @@ export type RootStackParamList = {
   CategoryLevels: {
     categoryType: string;
   };
-  Game: undefined;
+  Game: {
+    wordId: string;
+  };
 };
 
 export type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
