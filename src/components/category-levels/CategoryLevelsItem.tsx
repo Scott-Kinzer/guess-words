@@ -1,14 +1,18 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {WordListResponse} from '../../services/categories.service';
 
 type Props = {
-  clickHandler: () => void;
+  wordData: WordListResponse;
+  clickHandler: (wordId: string) => void;
 };
 
-const CategoryLevelsItem = ({clickHandler}: Props) => {
+const CategoryLevelsItem = ({wordData, clickHandler}: Props) => {
   return (
-    <TouchableOpacity onPress={clickHandler} style={styles.category}>
-      <Text style={{textAlign: 'center'}}>Level 1</Text>
+    <TouchableOpacity
+      onPress={() => clickHandler(wordData.word_id)}
+      style={styles.category}>
+      <Text style={{textAlign: 'center'}}>Level {wordData.level}</Text>
     </TouchableOpacity>
   );
 };

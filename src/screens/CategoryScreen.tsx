@@ -9,7 +9,7 @@ import {categoriesRequest} from '../services/categories.service';
 const CategoryScreen = ({navigation}: CategoryProps) => {
   const authData = useContext(AuthContext);
 
-  const {data} = useQuery([], () => categoriesRequest());
+  const {data} = useQuery(['categories'], () => categoriesRequest());
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,6 +25,7 @@ const CategoryScreen = ({navigation}: CategoryProps) => {
 
       <View style={styles.categoryContainer}>
         {data &&
+          data?.length > 0 &&
           data.map(({type}) => {
             return (
               <CategoryItem
