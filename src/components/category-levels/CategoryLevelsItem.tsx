@@ -11,7 +11,10 @@ const CategoryLevelsItem = ({wordData, clickHandler}: Props) => {
   return (
     <TouchableOpacity
       onPress={() => clickHandler(wordData.word_id)}
-      style={styles.category}>
+      style={{
+        ...styles.category,
+        backgroundColor: wordData.is_guessed ? 'grey' : '#c09ed9',
+      }}>
       <Text style={{textAlign: 'center'}}>Level {wordData.level}</Text>
     </TouchableOpacity>
   );

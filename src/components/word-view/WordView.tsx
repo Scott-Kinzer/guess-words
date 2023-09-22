@@ -25,7 +25,9 @@ const WordView = ({wordLength, answerWord}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
+    width: '100%',
     justifyContent: 'center',
   },
   charContainer: {
