@@ -2,15 +2,36 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import WordView from '../components/word-view/WordView';
 import CustomKeyboard from '../components/keyboard/CustomKeyboard';
+import {useQuery} from '@tanstack/react-query';
+import {
+  WordDetailsResponse,
+  wordDetailsRequest,
+} from '../services/game.service';
+import {GameProps} from '../types/route.screen.types';
 
-const GameScreen = () => {
+const GameScreen = ({route}: GameProps) => {
   const [userAnswer, setUserAnswer] = useState('');
-  const wordLength = 5;
-  const isValid = wordLength === userAnswer.length;
+  const [wordDetails, setWordDetails] = useState<
+    undefined | WordDetailsResponse
+  >();
+  const isValid = wordDetails?.wordLength === userAnswer.length;
+
+  console.log(route.params.wordId);
+
+  const {} = useQuery(
+    ['wordDetails'],
+    () => wordDetailsRequest({wordId: route.params.wordId}),
+    {
+      onSuccess(data) {
+        console.log(data);
+        setWordDetails(data);
+      },
+    },
+  );
 
   const enterKey = (letter: string) => {
     setUserAnswer(prevWord => {
-      if (prevWord.length < wordLength) {
+      if (wordDetails && prevWord.length < wordDetails?.wordLength) {
         return prevWord + letter;
       }
 
@@ -31,25 +52,29 @@ const GameScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Let's play</Text>
-      <View style={styles.wordViewWrapper}>
-        <WordView wordLength={5} answerWord={userAnswer} />
-      </View>
-      <View style={styles.hintContainer}>
-        <View style={styles.hintinnerContainer}>
-          <Text style={styles.hintText}>
-            Some hint for user to guess word Some hint for user to guess word
-            Some hint for user to guess word
-          </Text>
-        </View>
-      </View>
-      <View style={styles.keyboardWrapper}>
-        <CustomKeyboard
-          submit={submit}
-          enterKey={enterKey}
-          deleteKey={deleteKey}
-          isValid={isValid}
-        />
-      </View>
+      {wordDetails && (
+        <>
+          <View style={styles.wordViewWrapper}>
+            <WordView
+              wordLength={wordDetails?.wordLength}
+              answerWord={userAnswer}
+            />
+          </View>
+          <View style={styles.hintContainer}>
+            <View style={styles.hintinnerContainer}>
+              <Text style={styles.hintText}>{wordDetails?.hint.hint}</Text>
+            </View>
+          </View>
+          <View style={styles.keyboardWrapper}>
+            <CustomKeyboard
+              submit={submit}
+              enterKey={enterKey}
+              deleteKey={deleteKey}
+              isValid={isValid}
+            />
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };
