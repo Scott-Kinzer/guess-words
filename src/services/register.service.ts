@@ -41,3 +41,20 @@ export const pincodeRequest = async (
 
   return response.data;
 };
+
+export type ResendPincodeRequestType = {
+  email: string;
+};
+
+export const resendPincodeRequest = async (
+  requestData: ResendPincodeRequestType,
+): Promise<PincodeResponseType> => {
+  const response = await axiosClient.post<PincodeResponseType>(
+    'auth/resend-pincode',
+    {
+      email: requestData.email,
+    },
+  );
+
+  return response.data;
+};
