@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext} from 'react';
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
 import {RootStackParamList} from '../../types/route.screen.types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useMutation} from '@tanstack/react-query';
@@ -7,7 +7,11 @@ import LoadingSpinner from '../../components/loader-components/Loader';
 import {View} from 'react-native';
 import {AuthContext} from '../../contexts/AuthContext';
 import PincodeForm from '../../components/forms/PincodeForm';
-import {pincodeRequest} from '../../services/register.service';
+import {
+  pincodeRequest,
+  resendPincodeRequest,
+} from '../../services/register.service';
+import RoundedButton from '../../components/buttons/animated-buttons/RoundedButton';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'AuthPincode'>;
@@ -15,14 +19,17 @@ type Props = {
 };
 
 const Pincode = ({navigation, email}: Props) => {
-  const {mutate, isLoading} = useMutation(pincodeRequest);
+  const {mutate} = useMutation(pincodeRequest);
+  const {mutate: mutateRequestPincode} = useMutation(resendPincodeRequest);
   const authData = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const makeLoginRequest = (
     data: {[x: string]: string},
     setErrors: Dispatch<SetStateAction<string>>,
   ) => {
     let pincode = '';
+    setIsLoading(true);
 
     for (let key in data) {
       pincode += data[key];
@@ -35,10 +42,12 @@ const Pincode = ({navigation, email}: Props) => {
 
     mutate(requestData, {
       onSuccess: tokens => {
+        setIsLoading(false);
         authData?.setTokens(tokens.accessToken, tokens.refreshToken);
         navigation.push('Category');
       },
       onError: error => {
+        setIsLoading(false);
         const errorAxios = error as AxiosError;
 
         if (errorAxios.response?.data) {
@@ -58,9 +67,32 @@ const Pincode = ({navigation, email}: Props) => {
     });
   };
 
+  const resendPincode = () => {
+    setIsLoading(true);
+    mutateRequestPincode(
+      {email},
+      {
+        onSuccess() {
+          setIsLoading(false);
+        },
+        onError() {
+          setIsLoading(false);
+        },
+      },
+    );
+  };
+
   return (
     <View>
       <PincodeForm navigation={navigation} makeRequest={makeLoginRequest} />
+
+      <View style={{marginTop: 30}}>
+        <RoundedButton
+          isDisabled={false}
+          text="Resend pincode"
+          pressHandler={resendPincode}
+        />
+      </View>
       {isLoading && <LoadingSpinner />}
     </View>
   );
