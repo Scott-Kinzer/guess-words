@@ -94,6 +94,12 @@ const LoginForm = ({navigation, makeRequest}: Props) => {
                 pressHandler={() => navigation.push('Auth')}
               />
             </View>
+            <View style={{marginTop: 10}}>
+              <RoundedButton
+                text="Forgot password"
+                pressHandler={() => navigation.push('PasswordRecovery')}
+              />
+            </View>
           </View>
         )}
       </Formik>
