@@ -11,6 +11,7 @@ import GameScreen from './src/screens/GameScreen';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import AuthWrapper, {AuthContext} from './src/contexts/AuthContext';
 import {Text, View} from 'react-native';
+import PasswordRecoveryScreen from './src/screens/PasswordRecoveryScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
@@ -45,6 +46,16 @@ const NavigationWrapper = () => {
             component={AuthScreen}
             options={{
               title: 'Auth',
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              animationDuration: 180,
+            }}
+          />
+          <Stack.Screen
+            name="PasswordRecovery"
+            component={PasswordRecoveryScreen}
+            options={{
+              title: 'Recovery',
               headerShown: false,
               animation: 'fade_from_bottom',
               animationDuration: 180,
