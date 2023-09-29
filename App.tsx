@@ -56,8 +56,8 @@ const NavigationWrapper = () => {
             component={PasswordRecoveryScreen}
             options={{
               title: 'Recovery',
-              headerShown: false,
-              animation: 'fade_from_bottom',
+              headerTransparent: true,
+              animation: 'slide_from_left',
               animationDuration: 180,
             }}
           />
