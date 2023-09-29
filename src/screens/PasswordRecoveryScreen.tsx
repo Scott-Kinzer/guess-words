@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, SafeAreaView, Text} from 'react-native';
 import {PasswordRecoveryProps} from '../types/route.screen.types';
+import RecoveryEmail from '../sections/recovery/RecoveryEmail';
 
 enum PasswordRecoverySteps {
   EMAIL,
@@ -22,6 +23,14 @@ const PasswordRecoveryScreen = ({}: PasswordRecoveryProps) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.title}>Password recovery</Text>
+
+        <View style={styles.forms}>
+          {currentStep === PasswordRecoverySteps.EMAIL && (
+            <RecoveryEmail
+              goToNextSection={(email: string) => console.log(email)}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -32,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  loginForm: {
+  forms: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,

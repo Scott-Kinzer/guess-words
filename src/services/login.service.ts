@@ -20,3 +20,24 @@ export const loginRequest = async (
 
   return response.data;
 };
+
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+type ForgotPasswordResponse = {
+  message: string;
+};
+
+export const forgotPasswordRequest = async (
+  requestData: ForgotPasswordRequest,
+): Promise<ForgotPasswordResponse> => {
+  const response = await axiosClient.post<ForgotPasswordResponse>(
+    'auth/forgot-password',
+    {
+      email: requestData.email,
+    },
+  );
+
+  return response.data;
+};
