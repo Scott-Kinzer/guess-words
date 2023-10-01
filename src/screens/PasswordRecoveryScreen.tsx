@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState} from 'react';
 import {View, StyleSheet, SafeAreaView, Text} from 'react-native';
 import {PasswordRecoveryProps} from '../types/route.screen.types';
 import RecoveryEmail from '../sections/recovery/RecoveryEmail';
+import RecoveryPincode from '../sections/recovery/RecoveryPincode';
 
 enum PasswordRecoverySteps {
   EMAIL,
@@ -18,6 +18,7 @@ const RECOVERY_STEPS = [
 
 const PasswordRecoveryScreen = ({}: PasswordRecoveryProps) => {
   const [currentStep, setCurrentStep] = useState(RECOVERY_STEPS[0]);
+  const [email, setEmail] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +28,16 @@ const PasswordRecoveryScreen = ({}: PasswordRecoveryProps) => {
         <View style={styles.forms}>
           {currentStep === PasswordRecoverySteps.EMAIL && (
             <RecoveryEmail
-              goToNextSection={(email: string) => console.log(email)}
+              goToNextSection={(emailValue: string) => {
+                setEmail(emailValue);
+                setCurrentStep(PasswordRecoverySteps.PINCODE);
+              }}
+            />
+          )}
+          {currentStep === PasswordRecoverySteps.PINCODE && (
+            <RecoveryPincode
+              email={email}
+              goToNextSection={(pincode: string) => console.log(pincode)}
             />
           )}
         </View>

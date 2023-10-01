@@ -41,3 +41,26 @@ export const forgotPasswordRequest = async (
 
   return response.data;
 };
+
+export type ValidatePincodeRequest = {
+  email: string;
+  pincode: string;
+};
+
+type ValidatePincodeResponse = {
+  message: string;
+};
+
+export const validatePincodeRequest = async (
+  requestData: ValidatePincodeRequest,
+): Promise<ValidatePincodeResponse> => {
+  const response = await axiosClient.post<ForgotPasswordResponse>(
+    'auth/pincode-validate',
+    {
+      email: requestData.email,
+      pincode: requestData.pincode,
+    },
+  );
+
+  return response.data;
+};
