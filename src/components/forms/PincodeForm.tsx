@@ -13,11 +13,8 @@ import RoundedButton from '../buttons/animated-buttons/RoundedButton';
 import {pinCodeValidation} from './validations/auth.validation';
 import {isNumber} from '../../helpers/isNumber';
 import {PINCODE_OBJ, PINCODE_TEMP} from './form-data/form.data';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types/route.screen.types';
 
 type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'AuthPincode'>;
   makeRequest: (
     data: {[x: string]: string},
     setErrors: Dispatch<SetStateAction<string>>,

@@ -1,30 +1,27 @@
-import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
-import {RootStackParamList} from '../../types/route.screen.types';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useMutation} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
 import LoadingSpinner from '../../components/loader-components/Loader';
 import {View} from 'react-native';
-import {AuthContext} from '../../contexts/AuthContext';
 import PincodeForm from '../../components/forms/PincodeForm';
-import {
-  pincodeRequest,
-  resendPincodeRequest,
-} from '../../services/register.service';
 import RoundedButton from '../../components/buttons/animated-buttons/RoundedButton';
+import {
+  forgotPasswordRequest,
+  validatePincodeRequest,
+} from '../../services/login.service';
 
 type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'AuthPincode'>;
   email: string;
+  goToNextSection: (pincode: string) => void;
 };
 
-const Pincode = ({navigation, email}: Props) => {
-  const {mutate} = useMutation(pincodeRequest);
-  const {mutate: mutateRequestPincode} = useMutation(resendPincodeRequest);
-  const authData = useContext(AuthContext);
+const RecoveryPincode = ({email, goToNextSection}: Props) => {
+  const {mutate} = useMutation(validatePincodeRequest);
+  const {mutate: mutateRequestPincode} = useMutation(forgotPasswordRequest);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const makeLoginRequest = (
+  const validateRecoveryPincodeRequest = (
     data: {[x: string]: string},
     setErrors: Dispatch<SetStateAction<string>>,
   ) => {
@@ -41,10 +38,8 @@ const Pincode = ({navigation, email}: Props) => {
     };
 
     mutate(requestData, {
-      onSuccess: tokens => {
-        setIsLoading(false);
-        authData?.setTokens(tokens.accessToken, tokens.refreshToken);
-        navigation.push('Category');
+      onSuccess: () => {
+        goToNextSection(pincode);
       },
       onError: error => {
         setIsLoading(false);
@@ -84,7 +79,7 @@ const Pincode = ({navigation, email}: Props) => {
 
   return (
     <View>
-      <PincodeForm makeRequest={makeLoginRequest} />
+      <PincodeForm makeRequest={validateRecoveryPincodeRequest} />
 
       <View style={{marginTop: 30}}>
         <RoundedButton
@@ -98,4 +93,4 @@ const Pincode = ({navigation, email}: Props) => {
   );
 };
 
-export default Pincode;
+export default RecoveryPincode;
