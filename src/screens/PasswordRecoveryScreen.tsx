@@ -3,6 +3,7 @@ import {View, StyleSheet, SafeAreaView, Text} from 'react-native';
 import {PasswordRecoveryProps} from '../types/route.screen.types';
 import RecoveryEmail from '../sections/recovery/RecoveryEmail';
 import RecoveryPincode from '../sections/recovery/RecoveryPincode';
+import RecoveryPassword from '../sections/recovery/RecoveryPassword';
 
 enum PasswordRecoverySteps {
   EMAIL,
@@ -16,9 +17,10 @@ const RECOVERY_STEPS = [
   PasswordRecoverySteps.PASSWORD,
 ];
 
-const PasswordRecoveryScreen = ({}: PasswordRecoveryProps) => {
+const PasswordRecoveryScreen = ({navigation}: PasswordRecoveryProps) => {
   const [currentStep, setCurrentStep] = useState(RECOVERY_STEPS[0]);
   const [email, setEmail] = useState('');
+  const [pincode, setPincode] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,7 +39,17 @@ const PasswordRecoveryScreen = ({}: PasswordRecoveryProps) => {
           {currentStep === PasswordRecoverySteps.PINCODE && (
             <RecoveryPincode
               email={email}
-              goToNextSection={(pincode: string) => console.log(pincode)}
+              goToNextSection={(pincodeValue: string) => {
+                setPincode(pincodeValue);
+                setCurrentStep(PasswordRecoverySteps.PASSWORD);
+              }}
+            />
+          )}
+          {currentStep === PasswordRecoverySteps.PASSWORD && (
+            <RecoveryPassword
+              navigation={navigation}
+              email={email}
+              pincode={pincode}
             />
           )}
         </View>

@@ -64,3 +64,28 @@ export const validatePincodeRequest = async (
 
   return response.data;
 };
+
+export type UpdatePasswordRequest = {
+  password: string;
+  email: string;
+  pincode: string;
+};
+
+type UpdatePasswordResponse = {
+  message: string;
+};
+
+export const updatePasswordRequest = async (
+  requestData: UpdatePasswordRequest,
+): Promise<UpdatePasswordResponse> => {
+  const response = await axiosClient.post<ForgotPasswordResponse>(
+    'auth/password-recovery',
+    {
+      email: requestData.email,
+      pincode: requestData.pincode,
+      password: requestData.password,
+    },
+  );
+
+  return response.data;
+};

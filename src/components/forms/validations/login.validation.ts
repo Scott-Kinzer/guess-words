@@ -1,10 +1,6 @@
 import * as yup from 'yup';
 
-export const loginFormValidation = {
-  email: yup
-    .string()
-    .email('Invalid email format.')
-    .required('Email is required.'),
+export const passwordFormValidation = {
   password: yup
     .string()
     .required('Password is required')
@@ -15,4 +11,12 @@ export const loginFormValidation = {
       /[!@#$%^&*(),.?":{}|<>]/,
       'Password must contain at least one special character',
     ),
+};
+
+export const loginFormValidation = {
+  email: yup
+    .string()
+    .email('Invalid email format.')
+    .required('Email is required.'),
+  ...passwordFormValidation,
 };
